@@ -23,33 +23,28 @@ public class GoodDaoImpl implements GoodDao {
 
     @Override
     public List<Good> getAll() {
-        List<Good> allGoods = goodMapper.selectList(null);
-        return allGoods;
+        return goodMapper.selectList(null);
     }
 
     @Override
     public Good getById(String goodId) {
-        Good good = goodMapper.selectById(goodId);
-        return good;
+        return goodMapper.selectById(goodId);
     }
 
     @Override
     public boolean add(Good good) {
-        boolean flag = goodMapper.insert(good) > 0;
-        return flag;
+        return goodMapper.insert(good) > 0;
     }
 
     @Override
     public boolean delete(String goodId) {
-        boolean flag = goodMapper.deleteById(goodId) > 0;
-        return flag;
+        return goodMapper.deleteById(goodId) > 0;
     }
 
     @Override
     public boolean update(Good good) {
         UpdateWrapper<Good> uw = new UpdateWrapper<>();
         uw.eq("good_id", good.getGoodId());
-        boolean flag = goodMapper.update(good, uw) > 0;
-        return flag;
+        return goodMapper.update(good, uw) > 0;
     }
 }

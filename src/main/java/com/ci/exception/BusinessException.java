@@ -1,11 +1,10 @@
 package com.ci.exception;
 
-public class BusinessException extends RuntimeException {
-    private Integer code;
+import lombok.Getter;
 
-    public Integer getCode() {
-        return code;
-    }
+@Getter
+public class BusinessException extends RuntimeException {
+    private final Integer code;
 
     public BusinessException(Integer code, String message) {
         super(message);

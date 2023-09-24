@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,20 +22,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        List<User> allUsers = userDao.getAll();
-        return allUsers;
+        return userDao.getAll();
     }
 
     @Override
     public User getById(String userId) {
-        User user = userDao.getById(userId);
-        return user;
+        return userDao.getById(userId);
     }
 
     @Override
     public User getByName(String name) {
-        User user = userDao.getByName(name);
-        return user;
+        return userDao.getByName(name);
     }
 
     @Override
@@ -51,8 +47,7 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword() + "cikian";
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
         user.setPassword(md5Password);
-        boolean flag = userDao.add(user);
-        return flag;
+        return userDao.add(user);
     }
 
     @Override
@@ -86,8 +81,7 @@ public class UserServiceImpl implements UserService {
         // 获取当前系统时间
         String nowTime = formatter.format(date);
         user.setUpdateTime(nowTime);
-        boolean flag = userDao.update(user);
-        return flag;
+        return userDao.update(user);
     }
 
     @Override
@@ -100,8 +94,7 @@ public class UserServiceImpl implements UserService {
         newPasswd += "cikian";
         String md5NewPasswd = DigestUtils.md5DigestAsHex(newPasswd.getBytes(StandardCharsets.UTF_8));
         user.setUpdateTime(nowTime);
-        boolean flag = userDao.updatePasswd(md5NewPasswd, user);
-        return flag;
+        return userDao.updatePasswd(md5NewPasswd, user);
     }
 
     @Override

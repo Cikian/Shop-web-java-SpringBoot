@@ -1,7 +1,6 @@
 package com.ci.dao.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ci.dao.UserDao;
 import com.ci.mapper.UserMapper;
@@ -18,36 +17,31 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        List<User> allUsers = userMapper.selectList(null);
-        return allUsers;
+        return userMapper.selectList(null);
     }
 
     @Override
     public User getById(String userId) {
-        User user = userMapper.selectById(userId);
-        return user;
+        return userMapper.selectById(userId);
     }
 
     @Override
     public boolean add(User user) {
-        boolean flag = userMapper.insert(user) > 0;
-        return flag;
+        return userMapper.insert(user) > 0;
     }
 
     @Override
     public User getByName(String name) {
-        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
+        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
         lqw.eq(User::getUserName, name);
-        User userRes = userMapper.selectOne(lqw);
-        return userRes;
+        return userMapper.selectOne(lqw);
     }
 
     @Override
     public boolean update(User user) {
         UpdateWrapper<User> uw = new UpdateWrapper<>();
         uw.eq("user_id", user.getUserId());
-        boolean flag = userMapper.update(user, uw) > 0;
-        return flag;
+        return userMapper.update(user, uw) > 0;
     }
 
     @Override
@@ -55,8 +49,7 @@ public class UserDaoImpl implements UserDao {
         UpdateWrapper<User> uw = new UpdateWrapper<>();
         uw.eq("user_id", user.getUserId());
         user.setPassword(newPasswd);
-        boolean flag = userMapper.update(user, uw) > 0;
-        return flag;
+        return userMapper.update(user, uw) > 0;
     }
 
     @Override

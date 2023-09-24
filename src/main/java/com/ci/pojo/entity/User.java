@@ -15,6 +15,7 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @TableName("user")
 public class User {
+    @Getter
     @TableId(type = IdType.ASSIGN_ID)
     private String userId;
 
@@ -22,6 +23,7 @@ public class User {
     private String userName;
 
     private String nickName;
+
     @NotBlank(message = "邮箱不能为空")
     @Email(message = "邮箱格式不正确")
     private String email;
@@ -50,7 +52,4 @@ public class User {
 
     private String updateTime;
 
-    public String getUserId() {
-        return userId;
-    }
 }

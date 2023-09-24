@@ -1,15 +1,10 @@
 package com.ci.controller;
 
-import com.UpYun;
 import com.ci.exception.BusinessException;
-import com.ci.exception.SystemException;
 import com.ci.pojo.entity.User;
 import com.ci.pojo.vo.*;
 import com.ci.service.UserService;
 import com.ci.util.FileUtils;
-import com.upyun.UpException;
-import com.upyun.UpYunUtils;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.BindingResult;
@@ -20,11 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * @author Cikian, shirley
@@ -39,12 +30,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    /**
-     * @param userId
-     * @param file
-     * @return Result
-     * @auther: Cikian
-     */
     @PostMapping("/upload")
     public Result upload(MultipartFile file, String userId) {
         return FileUtils.uploadToUpYun(file, userId);
@@ -67,8 +52,8 @@ public class UserController {
 
     /**
      * @param lUser
-     * @return
-     * @auther: shirley
+     * @return Result
+     * @author shirley
      */
     @PostMapping
     public Result login(@RequestBody LoginUser lUser, HttpServletRequest request) {

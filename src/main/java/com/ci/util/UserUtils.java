@@ -15,7 +15,7 @@ public class UserUtils {
     public static boolean checkPassword(String uPassword, String dbPassword) {
         uPassword += "cikian";
         uPassword = DigestUtils.md5DigestAsHex(uPassword.getBytes(StandardCharsets.UTF_8));
-        return uPassword.equals(dbPassword) ? true : false;
+        return uPassword.equals(dbPassword);
     }
 
 }

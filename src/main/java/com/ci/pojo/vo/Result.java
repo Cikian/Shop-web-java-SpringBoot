@@ -1,5 +1,8 @@
 package com.ci.pojo.vo;
 
+import lombok.Getter;
+
+@Getter
 public class Result {
     private Integer code;
     private Object data;
@@ -28,24 +31,12 @@ public class Result {
         this.path = path;
     }
 
-    public Object getData() {
-        return data;
-    }
-
     public void setData(Object data) {
         this.data = data;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public Integer getCode() {
-        return code;
     }
 
     public void setCode(Integer code) {
@@ -56,7 +47,4 @@ public class Result {
         this.path = path;
     }
 
-    public String getPath() {
-        return path;
-    }
 }

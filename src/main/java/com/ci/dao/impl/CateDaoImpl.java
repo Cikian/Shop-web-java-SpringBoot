@@ -16,7 +16,6 @@ public class CateDaoImpl implements CateDao {
     public Category selectByName(String name) {
         QueryWrapper<Category> qw = new QueryWrapper<>();
         qw.eq("name", name);
-        Category category = cateMapper.selectOne(qw);
-        return category;
+        return cateMapper.selectOne(qw);
     }
 }

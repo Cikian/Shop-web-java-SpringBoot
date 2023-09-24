@@ -1,11 +1,10 @@
 package com.ci.exception;
 
-public class SystemException extends RuntimeException {
-    private Integer code;
+import lombok.Getter;
 
-    public Integer getCode() {
-        return code;
-    }
+@Getter
+public class SystemException extends RuntimeException {
+    private final Integer code;
 
     public SystemException(Integer code, String message) {
         super(message);

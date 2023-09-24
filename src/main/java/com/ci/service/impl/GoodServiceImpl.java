@@ -6,7 +6,6 @@ import com.ci.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -35,11 +34,7 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Good getById(String goodId){
-        Good good = goodDao.getById(goodId);
-        if (good != null)
-            return good;
-        else
-            return null;
+        return goodDao.getById(goodId);
     }
 
 
@@ -51,20 +46,17 @@ public class GoodServiceImpl implements GoodService {
         String nowTime = formatter.format(date);
         good.setCreateTime(nowTime);
         good.setUpdateTime(nowTime);
-        boolean flag = goodDao.add(good);
-        return flag;
+        return goodDao.add(good);
     }
 
     @Override
     public boolean deleteGood(String goodId){
-        boolean flag = goodDao.delete(goodId);
-        return flag;
+        return goodDao.delete(goodId);
     }
 
     @Override
     public  boolean updateGood(Good good){
-        boolean flag = goodDao.update(good);
-        return flag;
+        return goodDao.update(good);
     }
 
 }

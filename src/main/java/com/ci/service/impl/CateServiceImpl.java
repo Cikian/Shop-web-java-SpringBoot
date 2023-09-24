@@ -12,7 +12,6 @@ public class CateServiceImpl implements CateService {
     CateDao cateDao;
     @Override
     public Category selectByName(String name) {
-        Category category = cateDao.selectByName(name);
-        return category;
+        return cateDao.selectByName(name);
     }
 }

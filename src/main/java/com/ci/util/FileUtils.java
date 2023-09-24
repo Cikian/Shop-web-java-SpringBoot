@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FileUtils {
@@ -17,10 +18,10 @@ public class FileUtils {
         System.out.println("用户id>>>>>>>>>>>>>>>>>>>>" + userId);
         String filePath;
         // 获取文件拓展名
-        String fileExt = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
+        String fileExt = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
         System.out.println("文件拓展名>>>>>>>>>>>>>>>>>>>>" + fileExt);
         if (userId == null) {
-            filePath = "/develop/Shop-dev/avatar/" + UUID.randomUUID().toString() + "." + fileExt;
+            filePath = "/develop/Shop-dev/avatar/" + UUID.randomUUID() + "." + fileExt;
         } else {
             filePath = "/develop/Shop-dev/avatar/" + userId + "avatar" + fileExt;
         }

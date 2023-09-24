@@ -12,5 +12,5 @@ public class JdbcConfig {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(dataSource);
         return transactionManager;
-    };
+    }
 }

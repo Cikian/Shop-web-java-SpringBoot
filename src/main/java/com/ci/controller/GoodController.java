@@ -71,7 +71,7 @@ public class GoodController {
     }
 
     @DeleteMapping("/{goodId}")
-    public Result deleteGood(@PathVariable(" ") String goodId) {
+    public Result deleteGood(@PathVariable String goodId) {
         boolean flag = goodService.deleteGood(goodId);
         Integer code = flag ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
         String msg = flag ? "删除成功" : "删除失败";
