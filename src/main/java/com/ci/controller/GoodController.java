@@ -1,6 +1,7 @@
 package com.ci.controller;
 
 import com.ci.pojo.entity.Good;
+import com.ci.pojo.entity.User;
 import com.ci.pojo.vo.ErrorCode;
 import com.ci.pojo.vo.GoodView;
 import com.ci.pojo.vo.Result;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -84,6 +87,14 @@ public class GoodController {
         Integer code = flag ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
         String msg = flag ? "更新成功" : "更新失败";
         return new Result(code, flag, msg);
+    }
+
+    @GetMapping("/test")
+    public User test(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        System.out.println("session中的user：" + user);
+        return user;
     }
 
 }

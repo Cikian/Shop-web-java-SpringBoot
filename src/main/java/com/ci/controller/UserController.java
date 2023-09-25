@@ -188,7 +188,6 @@ public class UserController {
     @GetMapping("/test")
     public User test(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        return user;
+        return (User) session.getAttribute("user");
     }
 }

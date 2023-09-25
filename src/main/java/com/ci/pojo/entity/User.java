@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @TableName("user")
 public class User {
-    @Getter
     @TableId(type = IdType.ASSIGN_ID)
     private String userId;
 
