@@ -5,14 +5,13 @@ import com.ci.pojo.entity.User;
 import com.ci.pojo.vo.ErrorCode;
 import com.ci.pojo.vo.Result;
 import com.ci.service.UserService;
+import com.ci.util.TimeUtils;
 import com.ci.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,11 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean add(User user) {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        // 获取当前系统时间
-        String nowTime = formatter.format(date);
-        System.out.println("当前时间为：" + nowTime);
+        String nowTime = TimeUtils.getNowTime();
         user.setCreateTime(nowTime);
         user.setUpdateTime(nowTime);
         String password = user.getPassword() + "cikian";
@@ -76,21 +71,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User user) {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        // 获取当前系统时间
-        String nowTime = formatter.format(date);
+        String nowTime = TimeUtils.getNowTime();
         user.setUpdateTime(nowTime);
         return userDao.update(user);
     }
 
     @Override
     public boolean updatePasswd(String newPasswd, User user) {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        // 获取当前系统时间
-        String nowTime = formatter.format(date);
-        System.out.println("当前时间为：" + nowTime);
+        String nowTime = TimeUtils.getNowTime();
         newPasswd += "cikian";
         String md5NewPasswd = DigestUtils.md5DigestAsHex(newPasswd.getBytes(StandardCharsets.UTF_8));
         user.setUpdateTime(nowTime);

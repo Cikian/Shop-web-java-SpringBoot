@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.ci.dao.CartDao;
 import com.ci.pojo.entity.Cart;
 import com.ci.service.CartService;
+import com.ci.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +42,7 @@ public class CartServiceImpl implements CartService {
         }
         String cartId = String.valueOf(IdWorker.getId(cart));
         System.out.println("生成的cartId: " + cartId);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String nowTime = formatter.format(date);
+        String nowTime = TimeUtils.getNowTime();
         cart.setCartId(cartId);
         cart.setCreateTime(nowTime);
         cart.setUpdateTime(nowTime);
@@ -52,9 +51,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean update(Cart cart) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String nowTime = formatter.format(date);
+        String nowTime = TimeUtils.getNowTime();
         cart.setUpdateTime(nowTime);
         int count = cartDao.update(cart);
         return count == 1;

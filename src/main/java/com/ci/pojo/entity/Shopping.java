@@ -18,13 +18,11 @@ import javax.validation.constraints.NotNull;
 public class Shopping {
     @TableId(type = IdType.ASSIGN_ID)
     private String shoppingId;
-    @NotNull
     private String userId;
-    @NotNull
     private String orderId;
     @NotBlank(message = "收货人姓名不能为空")
     private String receiverName;  // 收货姓名
-    @NotBlank(message = "收货人姓名不能为空")
+    @NotBlank(message = "收货人电话不能为空")
     private String receiverPhone;  // 收货电话
     @NotBlank(message = "收货人地区不完整")
     private String receiverProvince;  // 省份

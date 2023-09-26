@@ -20,6 +20,7 @@ import java.util.List;
 public class OrderDaoImpl implements OrderDao {
     @Autowired
     OrderMapper orderMapper;
+
     @Override
     public List<Order> getAllByUserId(String userId) {
         QueryWrapper<Order> qw = new QueryWrapper<>();
@@ -28,8 +29,26 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public Order getById(String orderId) {
+        QueryWrapper<Order> qw = new QueryWrapper<>();
+        qw.eq("order_id", orderId);
+        return orderMapper.selectOne(qw);
+    }
+
+    @Override
     public boolean add(Order order) {
         int count = orderMapper.insert(order);
         return count > 0;
+    }
+
+    @Override
+    public boolean update(Order order) {
+        int count = orderMapper.updateById(order);
+        return count > 0;
+    }
+
+    @Override
+    public boolean closeOrder(Order order) {
+        return update(order);
     }
 }

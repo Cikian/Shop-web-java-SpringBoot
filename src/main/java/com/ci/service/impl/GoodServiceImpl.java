@@ -3,11 +3,10 @@ package com.ci.service.impl;
 import com.ci.dao.GoodDao;
 import com.ci.pojo.entity.Good;
 import com.ci.service.GoodService;
+import com.ci.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,29 +32,28 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public Good getById(String goodId){
+    public Good getById(String goodId) {
         return goodDao.getById(goodId);
     }
 
 
     @Override
-    public boolean add(Good good){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        // 获取当前系统时间
-        String nowTime = formatter.format(date);
+    public boolean add(Good good) {
+        String nowTime = TimeUtils.getNowTime();
         good.setCreateTime(nowTime);
         good.setUpdateTime(nowTime);
         return goodDao.add(good);
     }
 
     @Override
-    public boolean deleteGood(String goodId){
+    public boolean deleteGood(String goodId) {
         return goodDao.delete(goodId);
     }
 
     @Override
-    public  boolean updateGood(Good good){
+    public boolean updateGood(Good good) {
+        String nowTime = TimeUtils.getNowTime();
+        good.setUpdateTime(nowTime);
         return goodDao.update(good);
     }
 

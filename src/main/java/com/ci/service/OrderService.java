@@ -8,5 +8,9 @@ import java.util.List;
 @Transactional
 public interface OrderService {
     List<Order> getAllByUserId(String userId);
-    boolean add(Order order);
+    Order getById(String orderId);
+    String add(Order order);
+    boolean update(Order order);
+    
+    boolean closeOrder(String orderId);
 }
