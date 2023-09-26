@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ci.dao.CartDao;
 import com.ci.mapper.CartMapper;
 import com.ci.pojo.entity.Cart;
-import com.ci.pojo.entity.User;
+import com.ci.pojo.vo.CartView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,10 +24,8 @@ public class CartDaoImpl implements CartDao {
     CartMapper cartMapper;
 
     @Override
-    public List<Cart> getAllCartsByUserId(String userId) {
-        QueryWrapper<Cart> qw = new QueryWrapper<>();
-        qw.eq("user_id", userId);
-        return cartMapper.selectList(qw);
+    public List<CartView> getAllCartsByUserId(String userId) {
+        return cartMapper.getAllCartsByUserId(userId);
     }
 
     @Override

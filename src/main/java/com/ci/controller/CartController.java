@@ -29,14 +29,17 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @GetMapping
-    public Result getAll(HttpServletRequest request) {
+    @GetMapping("/{VsUserId}")
+    public Result getAll(@PathVariable String VsUserId, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         System.out.println("购物车获取session用户：" + user);
-        String userId = user.getUserId();
-        List<Cart> allCarts = cartService.getAllCartsByUserId(userId);
-        return new Result(ErrorCode.GET_SUCCESS, allCarts, "查询" + userId + "购物车成功");
+        String JsUserId = user.getUserId();
+        if (!VsUserId.equals(JsUserId)) {
+            return new Result(ErrorCode.GET_FAIL, null, "登录信息失效，请重新登录");
+        }
+        List<CartView> allCarts = cartService.getAllCartsByUserId(JsUserId);
+        return new Result(ErrorCode.GET_SUCCESS, allCarts, "查询" + JsUserId + "购物车成功");
     }
 
     @PutMapping
@@ -47,6 +50,24 @@ public class CartController {
         boolean flag = cartService.add(cart);
         String msg = flag ? "添加购物车成功" : "添加购物车失败";
         Integer code = flag ? ErrorCode.ADD_SUCCESS : ErrorCode.ADD_FAIL;
+        return new Result(code, null, msg);
+    }
+
+    @DeleteMapping("/{VsUserId}/{goodId}")
+    public Result delete(@PathVariable String VsUserId, @PathVariable String goodId, HttpServletRequest request) {
+        System.out.println("--------------------用户id和商品id：" + VsUserId + " " + goodId);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        System.out.println("购物车获取session用户：" + user);
+        String JsUserId = user.getUserId();
+
+        System.out.println("参数userid和sessionuserid：" + VsUserId + " " + JsUserId);
+        if (!VsUserId.equals(JsUserId)) {
+            return new Result(ErrorCode.DELETE_FAIL, null, "登录信息失效，请重新登录");
+        }
+        boolean flag = cartService.delete(JsUserId, goodId);
+        String msg = flag ? "删除购物车成功" : "删除购物车失败";
+        Integer code = flag ? ErrorCode.DELETE_SUCCESS : ErrorCode.DELETE_FAIL;
         return new Result(code, null, msg);
     }
 

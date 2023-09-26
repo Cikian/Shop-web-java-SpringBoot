@@ -2,8 +2,6 @@ package com.ci.pojo.vo;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Cikian
  * @version 1.0
@@ -17,10 +15,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartView {
-    @NotNull
+    private String cardId;
     private String userId;
-    @NotNull
     private String goodId;
-    @NotNull
     private Integer count;
+    private String name;
+    private String subtitle;
+    private String mainImage;
+    private Double price;
 }

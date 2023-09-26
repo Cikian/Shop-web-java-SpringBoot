@@ -3,6 +3,7 @@ package com.ci.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.ci.dao.CartDao;
 import com.ci.pojo.entity.Cart;
+import com.ci.pojo.vo.CartView;
 import com.ci.service.CartService;
 import com.ci.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CartServiceImpl implements CartService {
     CartDao cartDao;
 
     @Override
-    public List<Cart> getAllCartsByUserId(String userId) {
+    public List<CartView> getAllCartsByUserId(String userId) {
         return cartDao.getAllCartsByUserId(userId);
     }
 
@@ -37,7 +38,7 @@ public class CartServiceImpl implements CartService {
     public boolean add(Cart cart) {
         Cart cartTemp = cartDao.selectByUserIdAndGoodId(cart.getUserId(), cart.getGoodId());
         if (cartTemp != null) {
-            cartTemp.setCount(cartTemp.getCount() + 1);
+            cartTemp.setCount(cartTemp.getCount() + cart.getCount());
             return cartDao.update(cartTemp) == 1;
         }
         String cartId = String.valueOf(IdWorker.getId(cart));
