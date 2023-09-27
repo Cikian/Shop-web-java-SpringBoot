@@ -28,11 +28,9 @@ public class OrderView {
     @NotNull
     private String userId;
 
-    @Getter
     @NotNull
     private Shopping shopping;  // 收货信息
 
-    @Getter
     @NotNull
     @NotEmpty
     private List<OrderItem> orderItemList;  // 订单商品

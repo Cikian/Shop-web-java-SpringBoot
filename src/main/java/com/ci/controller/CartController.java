@@ -34,6 +34,7 @@ public class CartController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         System.out.println("购物车获取session用户：" + user);
+        System.out.println("参数userid和sessionuserid：" + VsUserId + " " + user.getUserId());
         String JsUserId = user.getUserId();
         if (!VsUserId.equals(JsUserId)) {
             return new Result(ErrorCode.GET_FAIL, null, "登录信息失效，请重新登录");
@@ -44,6 +45,7 @@ public class CartController {
 
     @PutMapping
     public Result add(@RequestBody @Valid Cart cart, BindingResult bindingResult) {
+        System.out.println("添加购物车参数：" + cart);
         for (ObjectError error : bindingResult.getAllErrors()) {
             return new Result(ErrorCode.ADD_FAIL, null, error.getDefaultMessage());
         }

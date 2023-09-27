@@ -101,9 +101,9 @@ public class UserController {
     @PutMapping("/update")
     public Result update(@RequestBody @Valid User user, BindingResult bindingResult,
                          HttpServletRequest request) {
+        System.out.println(user);
         for (ObjectError error : bindingResult.getAllErrors()) {
-            if (error.getDefaultMessage().equals("密码不能为空")) {
-                // 密码为空，跳过此次循环
+            if (error.getDefaultMessage().equals("密码不能为空") || error.getDefaultMessage().equals("密码长度必须在6-16位之间")) {
                 continue;
             }
             return new Result(ErrorCode.UPDATE_FAIL, null, error.getDefaultMessage());
@@ -114,7 +114,7 @@ public class UserController {
 
         boolean flag = userService.update(user);
         String msg = flag ? "更新成功" : "更新失败";
-        return new Result(flag ? ErrorCode.UPDATE_SUCCESS : ErrorCode.UPDATE_FAIL, null, msg);
+        return new Result(flag ? ErrorCode.UPDATE_SUCCESS : ErrorCode.UPDATE_FAIL, user, msg);
     }
 
     // 删除用户
