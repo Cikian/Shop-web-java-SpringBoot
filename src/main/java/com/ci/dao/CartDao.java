@@ -20,4 +20,5 @@ public interface CartDao {
     int delete(String userId, String goodId);
     
     int deleteAll(String userId);
+    long getCount(String userId);
 }

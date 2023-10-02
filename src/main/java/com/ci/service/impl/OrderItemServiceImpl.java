@@ -27,8 +27,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public boolean addOrderItem(List<OrderItem> orderItems, String orderId, String userId) {
         String nowTime = TimeUtils.getNowTime();
-        for (int i = 0; i < orderItems.size(); i++) {
-            OrderItem orderItem = orderItems.get(i);
+        for (OrderItem orderItem : orderItems) {
             orderItem.setOrderId(orderId);
             orderItem.setUserId(userId);
             orderItem.setCreateTime(nowTime);
@@ -45,8 +44,6 @@ public class OrderItemServiceImpl implements OrderItemService {
             boolean updateGoodFlag = goodService.updateGood(good);
             if (!updateGoodFlag)
                 return false;
-            System.out.println("插入orderItem的信息: " + orderItem);
-
             boolean addOrderItemFlag = orderItemDao.addOrderItem(orderItem);
             if (!addOrderItemFlag)
                 return false;

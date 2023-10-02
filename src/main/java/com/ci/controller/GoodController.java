@@ -40,6 +40,41 @@ public class GoodController {
         return new Result(code, allGoods, msg);
     }
 
+    // 获取首页推荐商品
+    @GetMapping("/rec")
+    public Result getRec() {
+        List<Good> recGoods = goodService.getAllRecGoods();
+        Integer code = recGoods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+        String msg = recGoods != null ? "" : "查询失败";
+        return new Result(code, recGoods, msg);
+    }
+
+    @GetMapping("/order/{order}")
+    public Result getAllByOrder(@PathVariable String order) {
+        switch (order) {
+            case "a": {
+                List<Good> allGoods = goodService.getAll();
+                Integer code = allGoods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = allGoods != null ? "" : "查询失败";
+                return new Result(code, allGoods, msg);
+            }
+            case "up": {
+                List<Good> allGoods = goodService.getAllByOrderUp();
+                Integer code = allGoods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = allGoods != null ? "" : "查询失败";
+                return new Result(code, allGoods, msg);
+            }
+            case "down": {
+                List<Good> allGoods = goodService.getAllByOrderDown();
+                Integer code = allGoods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = allGoods != null ? "" : "查询失败";
+                return new Result(code, allGoods, msg);
+            }
+            default:
+                return new Result(ErrorCode.GET_FAIL, null, "查询失败");
+        }
+    }
+
     @GetMapping("/{goodId}")
     public Result getById(@PathVariable("goodId") String goodId) {
         Good good = goodService.getById(goodId);
@@ -50,7 +85,6 @@ public class GoodController {
 
     @PostMapping
     public Result addGood(@RequestBody @Valid GoodView goodView, BindingResult bindingResult) {
-        System.out.println(goodView);
         for (ObjectError error : bindingResult.getAllErrors()) {
             return new Result(ErrorCode.ADD_FAIL, null, error.getDefaultMessage());
         }
@@ -66,7 +100,6 @@ public class GoodController {
                 .stock(goodView.getStock())
                 .status(goodView.getStatus())
                 .build();
-        System.out.println("builder的Good对象:" + good);
         boolean flag = goodService.add(good);
         Integer code = flag ? ErrorCode.ADD_SUCCESS : ErrorCode.ADD_FAIL;
         String msg = flag ? "添加成功" : "添加失败";
@@ -89,12 +122,49 @@ public class GoodController {
         return new Result(code, flag, msg);
     }
 
+    @GetMapping("/search/{keyword}")
+    public Result search(@PathVariable String keyword) {
+        List<Good> goods = goodService.getGoodsByKeyWord(keyword);
+        Integer code = goods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+        String msg = goods != null ? "" : "查询失败";
+        return new Result(code, goods, msg);
+    }
+
+    @GetMapping("/cate/{cateId}/{UoD}")
+    public Result getByCateId(@PathVariable String cateId, @PathVariable String UoD) {
+        switch (UoD) {
+            case "a": {
+                List<Good> goods = goodService.getGoodsByCateId(cateId);
+                Integer code = goods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = goods != null ? "" : "查询失败";
+                return new Result(code, goods, msg);
+            }
+            case "up": {
+                List<Good> goods = goodService.getGoodsByCateIdUp(cateId);
+                Integer code = goods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = goods != null ? "" : "查询失败";
+                return new Result(code, goods, msg);
+            }
+            case "down": {
+                List<Good> goods = goodService.getGoodsByCateIdDown(cateId);
+                Integer code = goods != null ? ErrorCode.GET_SUCCESS : ErrorCode.GET_FAIL;
+                String msg = goods != null ? "" : "查询失败";
+                return new Result(code, goods, msg);
+            }
+            default:
+                return new Result(ErrorCode.GET_FAIL, null, "查询失败");
+        }
+    }
+
+
+
+
     @GetMapping("/test")
     public User test(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        System.out.println("session中的user：" + user);
-        return user;
+        return (User) session.getAttribute("user");
     }
+
+
 
 }

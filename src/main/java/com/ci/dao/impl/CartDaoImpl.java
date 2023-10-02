@@ -74,4 +74,11 @@ public class CartDaoImpl implements CartDao {
         qw.eq("user_id", userId);
         return cartMapper.delete(qw);
     }
+
+    @Override
+    public long getCount(String userId) {
+        QueryWrapper<Cart> qw = new QueryWrapper<>();
+        qw.eq("user_id", userId);
+        return cartMapper.selectCount(qw);
+    }
 }

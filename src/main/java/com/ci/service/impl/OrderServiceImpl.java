@@ -39,23 +39,17 @@ public class OrderServiceImpl implements OrderService {
                 continue;
             if (order.getStatus() == 10) {
                 String createTime = order.getCreateTime();
-                System.out.println("**********createTime: " + createTime);
-                System.out.println("**********nowTime: " + nowTime);
                 // 计算时间差
                 long diff;
                 try {
                     Date d1 = formatter.parse(createTime);
                     Date d2 = formatter.parse(nowTime);
                     diff = d2.getTime() - d1.getTime();
-                    System.out.println("************d1: " + d1 + "\n"
-                            + "************d2: " + d2 + "\n"
-                            + "************diff: " + diff);
                 } catch (Exception e) {
                     throw new BusinessException(ErrorCode.BUSINESS_ERR, "时间转换异常", e);
                 }
                 // 计算时间差，单位为分钟
                 long diffMinutes = diff / (60 * 1000);
-                System.out.println("**********diffMinutes: " + diffMinutes);
                 // 如果超过10分钟，则关闭订单
                 if (diffMinutes >= 10) {
                     order.setStatus(0);

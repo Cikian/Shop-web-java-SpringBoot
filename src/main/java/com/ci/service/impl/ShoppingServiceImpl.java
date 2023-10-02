@@ -8,9 +8,6 @@ import com.ci.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * @author Cikian
  * @version 1.0
@@ -29,11 +26,7 @@ public class ShoppingServiceImpl implements ShoppingService {
         shopping.setCreateTime(nowTime);
         shopping.setUpdateTime(nowTime);
         String shoppingId = String.valueOf(IdWorker.getId(shopping));
-        System.out.println("生成的shoppingId: " + shoppingId);
         shopping.setShoppingId(shoppingId);
-
-        System.out.println("插入shopping的信息: " + shopping);
-        
         boolean addFlag = shoppingDao.add(shopping);
         if (addFlag) {
             return shoppingId;

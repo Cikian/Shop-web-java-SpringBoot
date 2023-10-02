@@ -33,8 +33,6 @@ public class CartController {
     public Result getAll(@PathVariable String VsUserId, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        System.out.println("购物车获取session用户：" + user);
-        System.out.println("参数userid和sessionuserid：" + VsUserId + " " + user.getUserId());
         String JsUserId = user.getUserId();
         if (!VsUserId.equals(JsUserId)) {
             return new Result(ErrorCode.GET_FAIL, null, "登录信息失效，请重新登录");
@@ -45,7 +43,6 @@ public class CartController {
 
     @PutMapping
     public Result add(@RequestBody @Valid Cart cart, BindingResult bindingResult) {
-        System.out.println("添加购物车参数：" + cart);
         for (ObjectError error : bindingResult.getAllErrors()) {
             return new Result(ErrorCode.ADD_FAIL, null, error.getDefaultMessage());
         }
@@ -57,13 +54,10 @@ public class CartController {
 
     @DeleteMapping("/{VsUserId}/{goodId}")
     public Result delete(@PathVariable String VsUserId, @PathVariable String goodId, HttpServletRequest request) {
-        System.out.println("--------------------用户id和商品id：" + VsUserId + " " + goodId);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        System.out.println("购物车获取session用户：" + user);
         String JsUserId = user.getUserId();
 
-        System.out.println("参数userid和sessionuserid：" + VsUserId + " " + JsUserId);
         if (!VsUserId.equals(JsUserId)) {
             return new Result(ErrorCode.DELETE_FAIL, null, "登录信息失效，请重新登录");
         }
@@ -71,6 +65,16 @@ public class CartController {
         String msg = flag ? "删除购物车成功" : "删除购物车失败";
         Integer code = flag ? ErrorCode.DELETE_SUCCESS : ErrorCode.DELETE_FAIL;
         return new Result(code, null, msg);
+    }
+
+    // 获取购物车中商品数量
+    @GetMapping("/count")
+    public Result getCount(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String JsUserId = user.getUserId();
+        long count = cartService.getCount(JsUserId);
+        return new Result(ErrorCode.GET_SUCCESS, count, "查询" + JsUserId + "购物车商品数量成功");
     }
 
     @GetMapping("/test")

@@ -9,8 +9,6 @@ import com.ci.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +40,6 @@ public class CartServiceImpl implements CartService {
             return cartDao.update(cartTemp) == 1;
         }
         String cartId = String.valueOf(IdWorker.getId(cart));
-        System.out.println("生成的cartId: " + cartId);
         String nowTime = TimeUtils.getNowTime();
         cart.setCartId(cartId);
         cart.setCreateTime(nowTime);
@@ -68,5 +65,10 @@ public class CartServiceImpl implements CartService {
     public boolean deleteAll(String userId) {
         int count = cartDao.deleteAll(userId);
         return count > 0;
+    }
+
+    @Override
+    public long getCount(String userId) {
+        return cartDao.getCount(userId);
     }
 }

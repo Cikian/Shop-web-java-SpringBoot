@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * @author Cikian, shirley
@@ -51,13 +52,12 @@ public class UserController {
     }
 
     /**
-     * @param lUser
+     * @param lUser，request
      * @return Result
      * @author shirley
      */
     @PostMapping
     public Result login(@RequestBody LoginUser lUser, HttpServletRequest request) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>userName:" + lUser.getUserName() + "password:" + lUser.getPassword());
         Result result = userService.login(lUser.getUserName(), lUser.getPassword());
         User user = null;
         try {
@@ -69,7 +69,6 @@ public class UserController {
             if (user != null) {
                 // 将用户信息存入session
                 HttpSession session = request.getSession();
-                System.out.println("返回的用户：" + user);
                 session.setAttribute("user", user);
                 return new Result(ErrorCode.LOGIN_SUCCESS, user, "登录成功", "/my");
             } else {
@@ -101,9 +100,8 @@ public class UserController {
     @PutMapping("/update")
     public Result update(@RequestBody @Valid User user, BindingResult bindingResult,
                          HttpServletRequest request) {
-        System.out.println(user);
         for (ObjectError error : bindingResult.getAllErrors()) {
-            if (error.getDefaultMessage().equals("密码不能为空") || error.getDefaultMessage().equals("密码长度必须在6-16位之间")) {
+            if (Objects.equals(error.getDefaultMessage(), "密码不能为空") || Objects.equals(error.getDefaultMessage(), "密码长度必须在6-16位之间")) {
                 continue;
             }
             return new Result(ErrorCode.UPDATE_FAIL, null, error.getDefaultMessage());
@@ -122,7 +120,7 @@ public class UserController {
     public Result delete(@RequestParam String password, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
-        String id = currentUser.getUserId().toString();
+        String id = currentUser.getUserId();
         Result result = userService.delete(currentUser.getUserId(), password);
         if (result.getCode() == ErrorCode.DELETE_SUCCESS) {
             session.removeAttribute("user");
@@ -133,7 +131,6 @@ public class UserController {
     // 更改密码
     @PutMapping("/updatePasswd")
     public Result updatePasswd(@RequestBody UpdatePwd upwd, HttpServletRequest request) {
-        // System.out.println(upwd);
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 

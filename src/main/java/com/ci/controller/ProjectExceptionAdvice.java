@@ -21,7 +21,6 @@ public class ProjectExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public Result doException(Exception e) {
-        System.out.println(e.getMessage());
         return new Result(ErrorCode.UNKNOW_ERR, null, "未知错误");
     }
 }

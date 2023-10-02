@@ -23,12 +23,12 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public List<Good> getAll() {
-        List<Good> allGoods = goodDao.getAll();
-        if (allGoods != null) {
-            System.out.println("成功");
-            return allGoods;
-        } else
-            return null;
+        return goodDao.getAll();
+    }
+
+    @Override
+    public List<Good> getAllRecGoods() {
+        return goodDao.getAllRecGoods();
     }
 
     @Override
@@ -55,6 +55,36 @@ public class GoodServiceImpl implements GoodService {
         String nowTime = TimeUtils.getNowTime();
         good.setUpdateTime(nowTime);
         return goodDao.update(good);
+    }
+
+    @Override
+    public List<Good> getGoodsByKeyWord(String keyWord) {
+        return goodDao.getGoodsByKeyWord(keyWord);
+    }
+
+    @Override
+    public List<Good> getGoodsByCateId(String cateId) {
+        return goodDao.getGoodsByCateId(cateId);
+    }
+
+    @Override
+    public List<Good> getGoodsByCateIdUp(String cateId) {
+        return goodDao.getGoodsByCateIdUp(cateId);
+    }
+
+    @Override
+    public List<Good> getGoodsByCateIdDown(String cateId) {
+        return goodDao.getGoodsByCateIdDown(cateId);
+    }
+
+    @Override
+    public List<Good> getAllByOrderUp() {
+        return goodDao.getAllByOrderUp();
+    }
+
+    @Override
+    public List<Good> getAllByOrderDown() {
+        return goodDao.getAllByOrderDown();
     }
 
 }

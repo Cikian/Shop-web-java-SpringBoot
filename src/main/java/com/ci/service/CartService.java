@@ -12,4 +12,5 @@ public interface CartService {
     boolean update(Cart cart);
     boolean delete(String userId, String goodId);
     boolean deleteAll(String userId);
+    long getCount(String userId);
 }
