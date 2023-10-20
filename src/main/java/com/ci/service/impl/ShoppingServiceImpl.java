@@ -21,6 +21,11 @@ public class ShoppingServiceImpl implements ShoppingService {
     ShoppingDao shoppingDao;
 
     @Override
+    public Shopping getByOrderId(String orderId) {
+        return shoppingDao.getByOrderId(orderId);
+    }
+
+    @Override
     public String add(Shopping shopping) {
         String nowTime = TimeUtils.getNowTime();
         shopping.setCreateTime(nowTime);
@@ -32,5 +37,10 @@ public class ShoppingServiceImpl implements ShoppingService {
             return shoppingId;
         }
         return null;
+    }
+
+    @Override
+    public boolean deleteById(String orderId) {
+        return shoppingDao.deleteById(orderId);
     }
 }

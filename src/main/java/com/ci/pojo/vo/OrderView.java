@@ -41,6 +41,7 @@ public class OrderView {
     @NotNull
     private Integer paymentType; // 支付类型：1-在线支付
     private Integer postPrice;  // 运费
+    private String remark;      // 备注
 
     public Shopping getShopping() {
         return shopping;

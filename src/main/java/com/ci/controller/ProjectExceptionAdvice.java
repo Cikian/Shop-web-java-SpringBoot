@@ -21,6 +21,6 @@ public class ProjectExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public Result doException(Exception e) {
-        return new Result(ErrorCode.UNKNOW_ERR, null, "未知错误");
+        return new Result(ErrorCode.UNKNOW_ERR, e, "未知错误");
     }
 }

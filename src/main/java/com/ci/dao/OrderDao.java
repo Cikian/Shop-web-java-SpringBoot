@@ -1,11 +1,12 @@
 package com.ci.dao;
 
 import com.ci.pojo.entity.Order;
+import com.ci.pojo.vo.OrderListView;
 
 import java.util.List;
 
 public interface OrderDao {
-    List<Order> getAllByUserId(String userId);
+    List<OrderListView> getAllByUserId(String userId);
     
     Order getById(String orderId);
 
@@ -14,5 +15,17 @@ public interface OrderDao {
     boolean update(Order order);
     
     boolean closeOrder(Order order);
+
+    boolean deleteById(String orderId);
+
+    Order getNewOrder(String userId);
+
+    List<OrderListView> getWaitPayOrder(String userId);
+
+    List<OrderListView> getWaitPostOrder(String userId);
+
+    List<OrderListView> getShippedOrder(String userId);
+
+    List<OrderListView> getReceivedOrder(String userId);
 
 }

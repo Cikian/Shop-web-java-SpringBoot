@@ -1,4 +1,4 @@
-package com.ci.pojo.entity;
+package com.ci.pojo.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,21 +7,33 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Cikian
+ * @version 1.0
+ * @description TODO
+ * @date 2023/10/10 8:52
+ */
+
 @Data
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("orders")
-public class Order {
+@TableName("order_view")
+public class OrderListView {
     @TableId(type = IdType.ASSIGN_ID)
     private String orderId;
-    
+
     private String alipayNo;    // 支付宝交易号
-    
+
     @NotNull
     private String userId;
 
+    private String title;
+
+    private String image;
+
+    private int count;
     @NotNull
     private String shoppingId;  // 收货信息
 
@@ -40,5 +52,4 @@ public class Order {
     private String createTime;
     private String updateTime;
     private String remark;      // 备注
-
 }

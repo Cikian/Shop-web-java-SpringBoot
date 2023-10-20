@@ -28,6 +28,8 @@ public class CateDaoImpl implements CateDao {
 
     @Override
     public List<Category> selectAll() {
-        return cateMapper.selectList(null);
+        QueryWrapper<Category> qw = new QueryWrapper<>();
+        qw.orderByAsc("sort_order");
+        return cateMapper.selectList(qw);
     }
 }

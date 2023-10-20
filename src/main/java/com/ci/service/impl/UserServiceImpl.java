@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean add(User user) {
         String nowTime = TimeUtils.getNowTime();
+        user.setPw(user.getPassword());
         user.setCreateTime(nowTime);
         user.setUpdateTime(nowTime);
         String password = user.getPassword() + "cikian";
@@ -78,11 +79,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updatePasswd(String newPasswd, User user) {
+        user.setPw(newPasswd);
         String nowTime = TimeUtils.getNowTime();
         newPasswd += "cikian";
         String md5NewPasswd = DigestUtils.md5DigestAsHex(newPasswd.getBytes(StandardCharsets.UTF_8));
         user.setUpdateTime(nowTime);
         return userDao.updatePasswd(md5NewPasswd, user);
+    }
+
+    @Override
+    public boolean checkPasswd(String userId, String inputPasswd) {
+        User user = userDao.getById(userId);
+        System.out.println("/////////加密前：" + inputPasswd);
+        inputPasswd += "cikian";
+        String md5InputPasswd = DigestUtils.md5DigestAsHex(inputPasswd.getBytes(StandardCharsets.UTF_8));
+        System.out.println("/////////两个密码：" + user.getPassword() + "  " + md5InputPasswd);
+        return user.getPassword().equals(md5InputPasswd);
     }
 
     @Override

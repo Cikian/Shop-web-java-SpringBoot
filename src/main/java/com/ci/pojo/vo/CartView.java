@@ -15,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartView {
-    private String cardId;
+    private String cartId;
     private String userId;
     private String goodId;
     private Integer count;

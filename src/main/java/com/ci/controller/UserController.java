@@ -5,6 +5,7 @@ import com.ci.pojo.entity.User;
 import com.ci.pojo.vo.*;
 import com.ci.service.UserService;
 import com.ci.util.FileUtils;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.BindingResult;
@@ -100,6 +101,7 @@ public class UserController {
     @PutMapping("/update")
     public Result update(@RequestBody @Valid User user, BindingResult bindingResult,
                          HttpServletRequest request) {
+        System.out.println("》》》》》》》》》》》》更新内容：" + (user));
         for (ObjectError error : bindingResult.getAllErrors()) {
             if (Objects.equals(error.getDefaultMessage(), "密码不能为空") || Objects.equals(error.getDefaultMessage(), "密码长度必须在6-16位之间")) {
                 continue;
@@ -111,8 +113,13 @@ public class UserController {
         user.setUserId(currentUser.getUserId());
 
         boolean flag = userService.update(user);
+        User newUser = null;
+        if (flag){
+            newUser = userService.getById(user.getUserId());
+            session.setAttribute("user", newUser);
+        }
         String msg = flag ? "更新成功" : "更新失败";
-        return new Result(flag ? ErrorCode.UPDATE_SUCCESS : ErrorCode.UPDATE_FAIL, user, msg);
+        return new Result(flag ? ErrorCode.UPDATE_SUCCESS : ErrorCode.UPDATE_FAIL, newUser, msg);
     }
 
     // 删除用户
@@ -138,14 +145,12 @@ public class UserController {
         String md5PrePassword = DigestUtils.md5DigestAsHex(prePasswdStr.getBytes(StandardCharsets.UTF_8));
 
         if (!md5PrePassword.equals(currentUser.getPassword())) {
-//            currentUser.setPassword(upwd.getNewPasswd());
-//            session.setAttribute("user", currentUser);
             return new Result(ErrorCode.UPDATE_FAIL, null, "原密码错误");
         }
         boolean flag = userService.updatePasswd(upwd.getNewPasswd(), currentUser);
         String msg = flag ? "更新成功" : "更新失败";
         // 清除session并重定向至登录页面
-        session.removeAttribute("user");
+        this.logout(request);
         return new Result(flag ? ErrorCode.UPDATE_SUCCESS : ErrorCode.UPDATE_FAIL, currentUser, msg);
     }
 
@@ -175,6 +180,21 @@ public class UserController {
         return new Result(code, null, msg, "/login");
     }
 
+    @PostMapping("/checkPasswd")
+    public Result checkPasswd(@RequestBody String inputPasswd, HttpServletRequest request) {
+        System.out.println(".....密码： " + inputPasswd);
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        String userId = currentUser.getUserId();
+        boolean flag = userService.checkPasswd(userId, inputPasswd);
+        Integer code = flag ? ErrorCode.COMMON_SUCCESS : ErrorCode.COMMON_FAIL;
+        String msg = flag ? "" : "密码错误";
+        return new Result(code, null, msg);
+
+    }
+
+
+
     // 查询全部用户
     @GetMapping
     public Result getAll() {
@@ -182,9 +202,4 @@ public class UserController {
     }
 
 
-    @GetMapping("/test")
-    public User test(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        return (User) session.getAttribute("user");
-    }
 }

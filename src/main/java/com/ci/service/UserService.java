@@ -23,5 +23,7 @@ public interface UserService {
     Result delete(String userId, String password);
 
     boolean updatePasswd(String newPasswd,User user);
+    
+    boolean checkPasswd(String userId, String inputPasswd);
 
 }
